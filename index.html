@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MovieCatalogApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineVault - Movie Catalog</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        .navbar {
+            background-color: #ff0000;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+        .navbar a:hover {
+            background-color: #000;
+        }
+        .navbar a.active {
+            background-color: #000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .search-bar {
+            background-color: #111;
+            padding: 20px;
+            text-align: center;
+        }
+        .search-bar input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff0000;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #fc471a;
+        }
+        .movie {
+            background-color: #111;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .movie img {
+            width: 150px;
+            height: auto;
+            border-radius: 6px;
+            margin-right: 20px;
+        }
+        .movie-info {
+            flex: 1;
+        }
+        .movie-info h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .movie-info p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">
+        <img src="logo.png" alt="CineVault Logo">
+        <span>CineVault</span>
+    </div>
+    <div>
+        <a href="#" class="active">Home</a>
+        <a href="#">About</a>
+        <a href="#">Favorites</a>
+    </div>
+</div>
+
+<div class="search-bar">
+    <input type="text" placeholder="Search...">
+    <button>Search</button>
+</div>
+
+<div class="container" ng-controller="MovieController">
+    <div class="movie" ng-repeat="movie in movies">
+        <img ng-src="{{ movie.poster }}" alt="Movie Poster">
+        <div class="movie-info">
+            <h2>{{ movie.title }}</h2>
+            <p>Release Year: {{ movie.releaseYear }}</p>
+            <p>Genre: {{ movie.genre }}</p>
+            <p>Rating: {{ movie.rating }}</p>
+            <p>Description: {{ movie.description }}</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('MovieCatalogApp', []);
+
+    app.controller('MovieController', function($scope) {
+        $scope.movies = [
+            {
+                title: 'Movie 1',
+                releaseYear: '2022',
+                genre: 'Action',
+                rating: '8.0',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id pretium nisi. Nam eu augue lacinia, tempus felis eu, gravida orci.',
+                poster: 'https://via.placeholder.com/150'
+            },
+            {
+                title: 'Movie 2',
+                releaseYear: '2023',
+                genre: 'Adventure',
+                rating: '7.5',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id pretium nisi. Nam eu augue lacinia, tempus felis eu, gravida orci.',
+                poster: 'https://via.placeholder.com/150'
+            },
+            // Add more movies as needed
+        ];
+    });
+</script>
+
+</body>
+</html>

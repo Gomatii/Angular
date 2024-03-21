@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MovieCatalogApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        .movie-details {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .poster {
+            width: 200px;
+            height: auto;
+            border-radius: 6px;
+            margin-right: 20px;
+        }
+        .circle-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .details-table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .details-table th, .details-table td {
+            padding: 10px;
+            border-bottom: 1px solid #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="movie-details" ng-controller="MovieDetailsController">
+    <div class="movie-poster">
+        <img class="poster" ng-src="{{ movie.poster }}" alt="Movie Poster">
+    </div>
+    <div class="movie-info">
+        <h2>{{ movie.title }}</h2>
+        <p>Rating: {{ movie.rating }}</p>
+        <p>Watch On: {{ movie.watchOn }}</p>
+        <div class="cast">
+            <h3>Cast:</h3>
+            <div ng-repeat="actor in movie.cast">
+                <img class="circle-img" ng-src="{{ actor.image }}" alt="{{ actor.name }}">
+                <span>{{ actor.name }}</span>
+            </div>
+        </div>
+        <h3>Plot:</h3>
+        <p>{{ movie.plot }}</p>
+        <h3>Details:</h3>
+        <table class="details-table">
+            <tr>
+                <th>Release Date</th>
+                <td>{{ movie.releaseDate }}</td>
+            </tr>
+            <tr>
+                <th>Country of Origin</th>
+                <td>{{ movie.country }}</td>
+            </tr>
+            <tr>
+                <th>Production Companies</th>
+                <td>{{ movie.productionCompanies.join(', ') }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="related-movies">
+    <h2>More Like This</h2>
+    <div class="movie" ng-repeat="relatedMovie in relatedMovies">
+        <img class="poster" ng-src="{{ relatedMovie.poster }}" alt="Related Movie Poster">
+        <h3>{{ relatedMovie.title }}</h3>
+        <p>{{ relatedMovie.plot }}</p>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('MovieCatalogApp', []);
+
+    app.controller('MovieDetailsController', function($scope) {
+        $scope.movie = {
+            title: 'Movie Title',
+            rating: '8.0',
+            watchOn: 'Netflix',
+            poster: 'https://via.placeholder.com/200',
+            cast: [
+                { name: 'Actor 1', image: 'https://via.placeholder.com/50', },
+                { name: 'Actor 2', image: 'https://via.placeholder.com/50', },
+                { name: 'Actor 3', image: 'https://via.placeholder.com/50', },
+            ],
+            plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id pretium nisi. Nam eu augue lacinia, tempus felis eu, gravida orci.',
+            releaseDate: '2022-01-01',
+            country: 'USA',
+            productionCompanies: ['Company A', 'Company B']
+        };
+
+        // Sample related movies
+        $scope.relatedMovies = [
+            {
+                title: 'Related Movie 1',
+                plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+            },
+            {
+                title: 'Related Movie 2',
+                plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+            },
+            {
+                title: 'Related Movie 3',
+                plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+            },
+            {
+                title: 'Related Movie 4',
+                plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+            }
+        ];
+    });
+</script>
+
+</body>
+</html>
