@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MovieCatalogApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineVault - Movie Catalog</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        .navbar {
+            background-color: #ff0000;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+        .navbar a:hover {
+            background-color: #000;
+        }
+        .navbar a.active {
+            background-color: #000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .search-bar {
+            background-color: #111;
+            padding: 20px;
+            text-align: center;
+        }
+        .search-bar input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff0000;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #fc471a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">
+        <img src="logo.png" alt="CineVault Logo">
+        <span>CineVault</span>
+    </div>
+    <div>
+        <a href="#" class="active">Home</a>
+        <a href="#">About</a>
+        <a href="#">Favorites</a>
+    </div>
+</div>
+
+<div class="search-bar">
+    <input type="text" placeholder="Search...">
+    <button>Search</button>
+</div>
+</body>
+</html>

@@ -16,6 +16,7 @@
         .movie-details {
             width: 80%;
             margin: 20px auto;
+            display: flex;
         }
         .poster {
             width: 200px;
@@ -24,8 +25,8 @@
             margin-right: 20px;
         }
         .circle-img {
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             margin-right: 10px;
         }
@@ -38,6 +39,40 @@
             padding: 10px;
             border-bottom: 1px solid #666;
         }
+        .keywords {
+            margin-bottom: 10px;
+        }
+        .keywords span {
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 5px;
+        }
+        .cast-images {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            scroll-behavior: smooth;
+        }
+        .cast-images::-webkit-scrollbar {
+            display: none;
+        }
+        .cast-images img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .arrows {
+            display: flex;
+            align-items: center;
+        }
+        .arrow {
+            cursor: pointer;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -46,16 +81,12 @@
     <div class="movie-poster">
         <img class="poster" ng-src="{{ movie.poster }}" alt="Movie Poster">
     </div>
-    <div class="movie-info">
+    <div class="details">
         <h2>{{ movie.title }}</h2>
         <p>Rating: {{ movie.rating }}</p>
         <p>Watch On: {{ movie.watchOn }}</p>
-        <div class="cast">
-            <h3>Cast:</h3>
-            <div ng-repeat="actor in movie.cast">
-                <img class="circle-img" ng-src="{{ actor.image }}" alt="{{ actor.name }}">
-                <span>{{ actor.name }}</span>
-            </div>
+        <div class="keywords">
+            <span ng-repeat="keyword in movie.keywords">{{ keyword }}</span>
         </div>
         <h3>Plot:</h3>
         <p>{{ movie.plot }}</p>
@@ -74,6 +105,17 @@
                 <td>{{ movie.productionCompanies.join(', ') }}</td>
             </tr>
         </table>
+    </div>
+</div>
+
+<div class="cast">
+    <h3>Cast:</h3>
+    <div class="cast-images" ng-style="{'justify-content': castScroll ? 'normal' : 'flex-start'}">
+        <img class="circle-img" ng-repeat="actor in movie.cast" ng-src="{{ actor.image }}" alt="{{ actor.name }}">
+    </div>
+    <div class="arrows">
+        <span class="arrow" ng-click="scrollLeft()">◄</span>
+        <span class="arrow" ng-click="scrollRight()">►</span>
     </div>
 </div>
 
@@ -96,14 +138,18 @@
             watchOn: 'Netflix',
             poster: 'https://via.placeholder.com/200',
             cast: [
-                { name: 'Actor 1', image: 'https://via.placeholder.com/50', },
-                { name: 'Actor 2', image: 'https://via.placeholder.com/50', },
-                { name: 'Actor 3', image: 'https://via.placeholder.com/50', },
+                { name: 'Actor 1', image: 'https://via.placeholder.com/100', },
+                { name: 'Actor 2', image: 'https://via.placeholder.com/100', },
+                { name: 'Actor 3', image: 'https://via.placeholder.com/100', },
+                { name: 'Actor 4', image: 'https://via.placeholder.com/100', },
+                { name: 'Actor 5', image: 'https://via.placeholder.com/100', },
+                { name: 'Actor 6', image: 'https://via.placeholder.com/100', },
             ],
             plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id pretium nisi. Nam eu augue lacinia, tempus felis eu, gravida orci.',
             releaseDate: '2022-01-01',
             country: 'USA',
-            productionCompanies: ['Company A', 'Company B']
+            productionCompanies: ['Company A', 'Company B'],
+            keywords : ['love' , 'romance' , 'drama' ,'teen']
         };
 
         // Sample related movies

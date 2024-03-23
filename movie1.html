@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MovieCatalogApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional Bootstrap JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        .movie-details {
+            width: 80%;
+            margin: 20px auto;
+            display: flex;
+        }
+        .poster {
+            width: 300px;
+            height: 300px;
+            border-radius: 6px;
+            margin-right: 20px;
+        }
+        .circle-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .details {
+            flex: 1;
+        }
+        .cast {
+            margin-bottom: 20px;
+        }
+        .cast-images {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            scroll-behavior: smooth;
+        }
+        .cast-images::-webkit-scrollbar {
+            display: none;
+        }
+        .cast-images img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .actor-name {
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+        }
+        .details-table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #666; /* Adding border */
+        }
+        .details-table th, .details-table td {
+            padding: 10px;
+            border-bottom: 1px solid #666;
+        }
+        .keywords {
+            margin-bottom: 10px;
+        }
+        .keywords span {
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 5px;
+        }
+        .duration {
+            font-weight: bold;
+            color: #fff;
+        }
+        .details-table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.details-table th, .details-table td {
+    padding: 10px;
+    border-bottom: 1px solid #666;
+    border-right: 1px solid #666;
+}
+
+.details-table th:last-child, .details-table td:last-child {
+    border-right: none;
+}
+
+.details-table {
+    border: 2px solid #666; /* Adding border */
+}
+.related-movies {
+            padding-left: 30px; /* Add left padding from the screen */
+            padding-right: 30px; /* Add left padding from the screen */
+        }
+        .movie-card {
+            border: 1px solid #ccc; /* Add border to each card */
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 5px;
+            text-align: center; /* Center align content */
+        }
+        .rposter {
+            display: block;
+            margin: 0 auto; /* Center align image */
+        }
+        .movie-title {
+            margin-top: 20px; /* Add spacing between image and title */
+        }
+
+    </style>
+</head>
+<body>
+<div ng-include="'navbar.html'"></div>
+<div class="movie-details" ng-controller="MovieDetailsController">
+    <div class="poster">
+        <img class="poster" ng-src="{{ movie.poster }}" alt="Movie Poster">
+    </div>
+    <div class="details">
+        <h2>{{ movie.title }}</h2>
+        <p>Rating: {{ movie.rating }}</p>
+        <p>Watch On: {{ movie.watchOn }}</p>
+        <p class="keywords">
+            <span ng-repeat="keyword in movie.keywords">{{ keyword }}</span>
+        </p>
+        <p class="duration">Duration: {{ movie.duration }}</p> <!-- Added Duration -->
+        <div class="cast">
+            <h3>Cast:</h3>
+            <div class="cast-images" ng-style="{'justify-content': castScroll ? 'normal' : 'flex-start'}">
+                <div ng-repeat="actor in movie.cast">
+                    <img class="circle-img" ng-src="{{ actor.image }}" alt="{{ actor.name }}">
+                    <div class="actor-name">{{ actor.name }}</div>
+                </div>
+            </div>
+
+        </div>
+        <h3>Plot:</h3>
+        <p>{{ movie.plot }}</p>
+        <h3>Details:</h3>
+        <table class="details-table">
+            <tr>
+                <th>Release Date</th>
+                <td>{{ movie.releaseDate }}</td>
+            </tr>
+            <tr>
+                <th>Country of Origin</th>
+                <td>{{ movie.country }}</td>
+            </tr>
+            <tr>
+                <th>Production Companies</th>
+                <td>{{ movie.productionCompanies.join(', ') }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="related-movies" ng-controller="MoreLikeController">
+    <h2>More Like This</h2>
+    <div class="row">
+        <div class="col-md-3 col-sm-6" ng-repeat="relatedMovie in relatedMovies">
+            <div class="movie-card">
+                <img class="rposter img-fluid" ng-src="{{ relatedMovie.poster }}" alt="Related Movie Poster">
+                <h3>{{ relatedMovie.title }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('MovieCatalogApp', []);
+
+    app.controller('MovieDetailsController', function($scope) {
+        $scope.movie = {
+            title: 'Movie Title',
+            rating: '8.0',
+            watchOn: 'Netflix',
+            poster: 'https://via.placeholder.com/200',
+            keywords: ['Action', 'Adventure', 'Sci-Fi'],
+            duration: '2h 30min',
+            cast: [
+                { name: 'Actor 1', image: 'https://via.placeholder.com/400', },
+                { name: 'Actor 2', image: 'https://via.placeholder.com/400', },
+                { name: 'Actor 3', image: 'https://via.placeholder.com/400', },
+                { name: 'Actor 4', image: 'https://via.placeholder.com/400', },
+            ],
+            plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id pretium nisi. Nam eu augue lacinia, tempus felis eu, gravida orci.',
+            releaseDate: '2022-01-01',
+            country: 'USA',
+            productionCompanies: ['Company A', 'Company B']
+        };
+    });
+
+        // Sample related movies
+        app.controller('MoreLikeController', function($scope) {
+    $scope.relatedMovies = [
+        {
+            title: 'Related Movie 1',
+            poster: 'https://via.placeholder.com/200',
+            plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        },
+        {
+            title: 'Related Movie 2',
+            poster: 'https://via.placeholder.com/200',
+            plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        },
+        {
+            title: 'Related Movie 3',
+            poster: 'https://via.placeholder.com/200',
+            plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        },
+        {
+            title: 'Related Movie 4',
+            poster: 'https://via.placeholder.com/200',
+            plot: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        }
+    ];
+
+    console.log($scope.relatedMovies); // Debug line to check the contents of relatedMovies array
+
+    // Other controller logic...
+});
+
+
+        // $scope.scrollLeft = function() {
+        //     document.querySelector('.cast-images').scrollBy(-100, 0);
+        // }
+
+        // $scope.scrollRight = function() {
+        //     document.querySelector('.cast-images').scrollBy(100, 0);
+        // }
+</script>
+
+</body>
+</html>
